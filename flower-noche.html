@@ -8,10 +8,10 @@
     <link rel="icon" href="img/flowers.png" type="image/x-icon" />
     <title>Flores 🌼</title>
   </head>
-  <body class="container day-mode">
-    <button class="flower-theme-toggle" id="flowerThemeToggle" title="Cambiar modo día/noche">🌙</button>
+  <body class="container night-mode">
+    <button class="flower-theme-toggle" id="flowerThemeToggle" title="Cambiar modo día/noche">☀️</button>
 
-    <!-- Cielo celeste con sol y nubes flotantes animadas -->
+    <!-- Cielo celeste con nubes flotantes animadas (al cambiar a modo día) -->
     <div class="day-sky">
       <div class="sun-glow"></div>
       <div class="cloud cloud--1"></div>
@@ -338,7 +338,7 @@
     <script src="main.js"></script>
     <script>
       (function() {
-        // 1. Modo Día y Noche (flower.html es la versión diurna por defecto)
+        // 1. Modo Día y Noche (flower-noche.html es la versión nocturna por defecto)
         const toggleBtn = document.getElementById("flowerThemeToggle");
         const hour = new Date().getHours();
         const autoDay = hour >= 6 && hour < 18;
@@ -346,8 +346,8 @@
         let savedTheme = null;
         try { savedTheme = localStorage.getItem("flower_theme"); } catch(e){}
 
-        // En flower.html, si no hay preferencia previa, abre en día
-        let isDay = savedTheme !== null ? (savedTheme === "day") : true;
+        // En flower-noche.html, si no hay preferencia previa, abre en noche
+        let isDay = savedTheme !== null ? (savedTheme === "day") : false;
 
         function applyFlowerTheme(day) {
           if (day) {

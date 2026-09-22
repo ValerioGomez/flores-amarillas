@@ -4,33 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#09090c">
+    <title>Para Naida 🌼</title>
+
+    <!-- Google Fonts: Outfit & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/flowers.png" type="image/x-icon">
-    <title>Valerio</title>
 </head>
 
-<body>
-    <div class="greetings">
-        <span>H</span>
-        <span>o</span>
-        <span>l</span>
-        <span>a</span>
-        <span>!</span>
-    </div>
-    <div class="description">
-        <span>Ya no estés triste 💖😊</span>
-    </div>
-    <div class="button">
-        <button class="botones">
-            <a href="flower.html" style="color: #fff;">¡Presiona para ya no estar triste!</a>
-        </button>
-    </div>
+<body class="theme-night">
+    <!-- Canvas de fondo para estrellas titilantes, hojas verdes, pétalos y chispas -->
+    <canvas id="canvas-bg"></canvas>
 
-    <!-- Créditos -->
-    <div class="credits">
-        <p>&copy; Valerio romántico en 2024.</p>
-    </div>
+    <!-- Efectos de iluminación ambiental sutiles (Dorado y Verde Botánico) -->
+    <div class="ambient-glow ambient-glow--gold"></div>
+    <div class="ambient-glow ambient-glow--green"></div>
+
+    <!-- Contenedor principal libre, abierto y orgánico (sin caja rígida) -->
+    <main class="viewport-wrapper">
+        <section class="apple-content" id="appleCard">
+            <!-- Canvas interno para micro-pétalos y micro-hojas flotantes -->
+            <canvas id="canvas-card"></canvas>
+
+            <!-- Barra superior interna: Botón de Sol/Luna dentro del contenedor -->
+            <div class="inner-header">
+                <div class="botanical-tag">
+                    <span class="leaf-icon">🌿</span>
+                    <span>Para ti</span>
+                </div>
+
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Cambiar modo día/noche" title="Cambiar tema">
+                    <span class="theme-icon theme-icon--sun">☀️</span>
+                    <span class="theme-icon theme-icon--moon">🌙</span>
+                </button>
+            </div>
+
+            <!-- Avatar minimalista con flor y brotes verdes -->
+            <div class="avatar-container">
+                <div class="avatar-glass">
+                    <span class="avatar-flower" id="avatarFlower">🌼</span>
+                    <span class="avatar-leaf">🍃</span>
+                </div>
+            </div>
+
+            <!-- Cabecera emocional -->
+            <div class="card-header">
+                <span class="greeting-pretitle">Un detalle para</span>
+                <h1 class="greeting-name" id="greetingName">
+                    <span class="char-name" style="--i:0">N</span><span class="char-name" style="--i:1">a</span><span class="char-name" style="--i:2">i</span><span class="char-name" style="--i:3">d</span><span class="char-name" style="--i:4">a</span>
+                </h1>
+            </div>
+
+            <!-- Área de Narrativa Cinética -->
+            <div class="story-container" id="storyBox">
+                <div class="story-quote-mark">“</div>
+                <div class="story-viewport">
+                    <p class="story-text" id="storyText">Cargando mensaje especial...</p>
+                </div>
+                <!-- Indicador de progreso de frases -->
+                <div class="story-pagination" id="storyDots"></div>
+            </div>
+
+            <!-- Deslizador estilo iOS ("Slide to Unlock") -->
+            <div class="slider-component">
+                <div class="slider-track" id="sliderTrack">
+                    <!-- Barra de progreso amarilla que avanza al deslizar -->
+                    <div class="slider-progress-bar" id="sliderProgressBar"></div>
+                    <!-- Texto brillante con efecto Shimmer -->
+                    <span class="slider-label" id="sliderLabel">
+                        desliza para abrir <i>›››</i>
+                    </span>
+                    <!-- Botón deslizador arrastrable -->
+                    <div class="slider-thumb" id="sliderThumb">
+                        <span class="thumb-icon">🌼</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Firma refinada con corazones interactivos y secreto al triple clic -->
+            <footer class="card-signature" id="signatureBox" title="Toca 3 veces aquí">
+                <span>Con todo mi cariño,</span>
+                <span class="signature-author" id="valerioEasterEgg">
+                    Valerio <span class="signature-heart" id="signatureHeart">💛</span>
+                </span>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Contenedor para micro-destellos y corazones flotantes -->
+    <div id="touch-particles"></div>
+
+    <script src="index.js"></script>
 </body>
 
 </html>

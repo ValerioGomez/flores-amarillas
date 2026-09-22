@@ -1,97 +1,714 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,900&display=swap');
-*{
-    font-family: 'Poppins',cursive;
+/* ==========================================================
+   Apple-Inspired Clean & Organic Design - Para Naida 🌼🌿
+   Mobile-First • Day/Night • Starry Night • Green Botanical Accents
+   ========================================================== */
+
+:root {
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --spring-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --smooth-easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
-body{
-    color: azure;
-    width: 100%;
-    height: 82vh;
+
+/* ==========================================================
+   Temas: Día y Noche (Variables Dinámicas)
+   ========================================================== */
+
+/* MODO NOCHE (Cielo estrellado, cálido, hojas esmeralda y oro) */
+body.theme-night {
+    --bg-surface: #07070b;
+    --bg-gradient: radial-gradient(circle at 50% 15%, #151a14 0%, #0a0910 60%, #040406 100%);
+    --content-bg: rgba(18, 18, 24, 0.42);
+    --content-border: rgba(255, 255, 255, 0.08);
+    --content-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7);
+
+    --text-title: #ffffff;
+    --text-body: rgba(245, 245, 247, 0.9);
+    --text-muted: rgba(245, 245, 247, 0.5);
+    
+    --gold-primary: #fed330;
+    --gold-deep: #f7b731;
+    --green-accent: #26de81;
+    --green-soft: #7bed9f;
+    --green-glow: rgba(38, 222, 129, 0.35);
+
+    --chip-bg: rgba(255, 255, 255, 0.06);
+    --chip-border: rgba(38, 222, 129, 0.25);
+    --chip-text: #7bed9f;
+
+    --slider-track-bg: rgba(255, 255, 255, 0.07);
+    --slider-track-border: rgba(255, 255, 255, 0.1);
+    --slider-text: rgba(255, 255, 255, 0.55);
+    --slider-thumb-bg: #ffffff;
+    --slider-thumb-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 14px rgba(254, 211, 48, 0.4);
+
+    --story-box-bg: rgba(14, 15, 20, 0.38);
+    --story-box-border: rgba(255, 255, 255, 0.07);
+}
+
+/* MODO DÍA (Jardín luminoso, marfil, hojas frescas y sol dorado) */
+body.theme-day {
+    --bg-surface: #f9fbf7;
+    --bg-gradient: radial-gradient(circle at 50% 15%, #f1f8ed 0%, #f6f3e8 55%, #ede7d8 100%);
+    --content-bg: rgba(255, 255, 255, 0.55);
+    --content-border: rgba(255, 255, 255, 0.85);
+    --content-shadow: 0 20px 45px -12px rgba(130, 160, 120, 0.2);
+
+    --text-title: #1d1d1f;
+    --text-body: #3a3a3c;
+    --text-muted: #7a7a80;
+
+    --gold-primary: #e69500;
+    --gold-deep: #d35400;
+    --green-accent: #20bf6b;
+    --green-soft: #26de81;
+    --green-glow: rgba(32, 191, 107, 0.25);
+
+    --chip-bg: rgba(255, 255, 255, 0.85);
+    --chip-border: rgba(32, 191, 107, 0.3);
+    --chip-text: #1b8a4e;
+
+    --slider-track-bg: rgba(0, 0, 0, 0.05);
+    --slider-track-border: rgba(0, 0, 0, 0.08);
+    --slider-text: rgba(29, 29, 31, 0.52);
+    --slider-thumb-bg: #ffffff;
+    --slider-thumb-shadow: 0 4px 18px rgba(180, 140, 70, 0.3);
+
+    --story-box-bg: rgba(255, 255, 255, 0.45);
+    --story-box-border: rgba(38, 222, 129, 0.2);
+}
+
+/* ==========================================================
+   Reset y Estructura Global
+   ========================================================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-surface);
+    background-image: var(--bg-gradient);
+    color: var(--text-title);
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: black;
-    /* padding-top: -30; */
+    position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.8s ease, color 0.5s ease;
 }
 
-.botones{
-    padding: 9px;
-    border-radius: 80px;
-    background-color: transparent;
-    border: none;
+/* Canvas de Fondo (Estrellas, Hojas verdes, Pétalos amarillos, Polvo dorado) */
+#canvas-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.botones a{
-    background-color: #0a2be9;
-    padding: 9px;
-    border-radius: 80px;
-    -webkit-border-radius: 80px;
-    -moz-border-radius: 80px;
-    -ms-border-radius: 80px;
-    -o-border-radius: 80px;
-
+/* Luces de ambiente (Oro y Verde Botánico) */
+.ambient-glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(95px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.45;
+    transition: opacity 0.8s ease;
 }
 
-.botones a:focus{
-    background-color: rgb(50, 194, 194);
+.ambient-glow--gold {
+    top: -5%;
+    left: 15%;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(254, 211, 48, 0.22) 0%, transparent 70%);
 }
 
-.greetings{
-    font-size: 7rem;
-    font-weight: 900;
-}
-.greetings > span{
-    animation: glow 2.5s ease-in-out infinite;
-}
-@keyframes glow{
-    0%, 100%{
-        color: #fff;
-        text-shadow: 0 0 12px #39c6d6, 0 0 50px #39c6d6, 0 0 100px #39c6d6;
-    }
-    10%, 90%{
-        color: #111;
-        text-shadow: none;
-    }
-}
-.greetings > span:nth-child(2){
-    animation-delay: .2s ;
-}
-.greetings > span:nth-child(3){
-    animation-delay: .4s ;
-}
-.greetings > span:nth-child(4){
-    animation-delay: .6s;
-}
-.greetings > span:nth-child(5){
-    animation-delay: .8s;
-}
-.greetings > span:nth-child(6){
-    animation-delay: 1s;
+.ambient-glow--green {
+    bottom: -5%;
+    right: 15%;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(38, 222, 129, 0.2) 0%, transparent 70%);
 }
 
-.description{
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+/* ==========================================================
+   Viewport Wrapper & Contenedor Abierto y Libre
+   ========================================================== */
+.viewport-wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: calc(env(safe-area-inset-top, 16px) + 12px) 18px calc(env(safe-area-inset-bottom, 16px) + 12px) 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
 }
 
-.button a{
-    text-decoration: none;
+/* Diseño Libre y Abierto (sin caja rígida opresiva) */
+.apple-content {
+    width: 100%;
+    background: var(--content-bg);
+    border: 1px solid var(--content-border);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border-radius: 20px; /* Menos curvo, más estilizado y sobrio */
+    padding: 22px 20px 20px 20px;
+    box-shadow: var(--content-shadow);
+    text-align: center;
+    position: relative;
+    transition: background 0.6s ease, border-color 0.6s ease;
+    animation: contentFadeIn 0.9s var(--smooth-easing) forwards;
+}
+
+@keyframes contentFadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Canvas interno para micro-pétalos y micro-hojas */
+#canvas-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 20px;
+}
+
+/* Barra superior interna (Dentro del contenedor) */
+.inner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 5;
+}
+
+.botanical-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    border-radius: 10px; /* Bordes moderados y elegantes */
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--chip-text);
+    letter-spacing: 0.3px;
+}
+
+.leaf-icon {
+    font-size: 0.85rem;
+    animation: leafSway 3s ease-in-out infinite;
+}
+
+@keyframes leafSway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(12deg) scale(1.1); }
+}
+
+/* Botón de Sol/Luna dentro del contenedor, sobrio y no tan curvo */
+.theme-toggle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px; /* Elegante y sobrio, no circular exagerado */
+    background: var(--chip-bg);
+    border: 1px solid var(--content-border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, background 0.4s ease;
+}
+
+.theme-toggle-btn:active {
+    transform: scale(0.92);
+}
+
+.theme-icon {
+    position: absolute;
+    font-size: 1.05rem;
+    transition: transform 0.35s var(--smooth-easing), opacity 0.35s ease;
+}
+
+body.theme-night .theme-icon--sun {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+body.theme-night .theme-icon--moon {
+    transform: translateY(24px);
+    opacity: 0;
+}
+
+body.theme-day .theme-icon--sun {
+    transform: translateY(-24px);
+    opacity: 0;
+}
+
+body.theme-day .theme-icon--moon {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ==========================================================
+   Avatar con Flor y Hoja Verde
+   ========================================================== */
+.avatar-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+    z-index: 2;
+}
+
+.avatar-glass {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px; /* Moderado */
+    background: var(--chip-bg);
+    border: 1px solid var(--content-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-flower {
+    font-size: 2.2rem;
+    display: inline-block;
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.2));
+    animation: flowerBreathe 3.5s ease-in-out infinite;
+}
+
+.avatar-leaf {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    font-size: 1.1rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: leafPulse 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes flowerBreathe {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    50% { transform: translateY(-3px) rotate(4deg) scale(1.05); }
+}
+
+@keyframes leafPulse {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.15) rotate(-8deg); }
+}
+
+/* ==========================================================
+   Cabecera y Nombre
+   ========================================================== */
+.card-header {
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.greeting-pretitle {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.greeting-name {
+    font-size: 2.3rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-title);
+    line-height: 1.1;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.char-name {
+    display: inline-block;
+    animation: nameFloat 3s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * 0.16s);
+    transition: transform 0.2s ease;
+}
+
+@keyframes nameFloat {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-4px) scale(1.05); }
+}
+
+body.theme-night .greeting-name {
+    background: linear-gradient(135deg, #ffffff 0%, #fff2be 45%, var(--gold-primary) 85%, var(--green-soft) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.theme-day .greeting-name {
+    background: linear-gradient(135deg, #1d1d1f 0%, #7d5200 65%, var(--green-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================
+   Narrativa Cinética (Kinetic Text Box)
+   ========================================================== */
+.story-container {
+    background: var(--story-box-bg);
+    border: 1px solid var(--story-box-border);
+    border-radius: 16px; /* Moderado y limpio */
+    padding: 16px 14px 12px 14px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease, background 0.4s ease;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.story-container:active {
+    transform: scale(0.985);
+}
+
+.story-quote-mark {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    line-height: 0.8;
+    color: var(--green-accent);
+    opacity: 0.8;
+    text-align: left;
+}
+
+.story-viewport {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 2px 8px 2px;
+}
+
+.story-text {
     font-size: 1rem;
-    color: #111;
+    line-height: 1.48;
+    color: var(--text-body);
+    font-weight: 400;
 }
 
-@media screen and (max-width:574px){
-    .greetings{
-        display: block;
-        font-size: 4rem;
-        font-weight: 800;
-        text-align: center;
+/* Animación individual por palabra y letra */
+.story-word {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.26em;
+}
+
+.story-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(12px) scale(0.7) rotate(calc((var(--char-idx) % 2 - 0.5) * 8deg));
+    filter: blur(5px);
+    animation: charEnter 0.4s var(--smooth-easing) forwards;
+    animation-delay: calc(var(--char-idx) * 0.022s);
+    will-change: transform, opacity, filter;
+}
+
+@keyframes charEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+        filter: blur(0);
     }
-    .description{
-        font-size: 2rem;
+}
+
+.story-char--exit {
+    animation: charExit 0.3s ease forwards !important;
+    animation-delay: calc(var(--char-idx) * 0.012s) !important;
+}
+
+@keyframes charExit {
+    to {
+        opacity: 0;
+        transform: translateY(-12px) scale(1.15) rotate(calc((var(--char-idx) % 2 - 0.5) * 12deg));
+        filter: blur(7px);
     }
-    
-    .button a{
-        font-size: 1rem;
+}
+
+.story-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.story-dot {
+    width: 6px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--text-muted);
+    opacity: 0.35;
+    transition: all 0.3s ease;
+}
+
+.story-dot.active {
+    width: 16px;
+    background: var(--gold-primary);
+    opacity: 1;
+}
+
+/* ==========================================================
+   Slider Estilo Apple ("Slide to Unlock")
+   ========================================================== */
+.slider-component {
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.slider-track {
+    position: relative;
+    width: 100%;
+    height: 54px;
+    background: var(--slider-track-bg);
+    border: 1px solid var(--slider-track-border);
+    border-radius: 999px; /* Redondo tipo píldora iOS */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    animation: trackPulseYellow 2.4s ease-in-out infinite;
+}
+
+/* Palpitación amarilla de fondo en el slider */
+@keyframes trackPulseYellow {
+    0%, 100% {
+        background-color: var(--slider-track-bg);
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 0px rgba(254, 211, 48, 0);
+        border-color: var(--slider-track-border);
+    }
+    50% {
+        background-color: rgba(254, 211, 48, 0.18);
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 22px rgba(254, 211, 48, 0.55);
+        border-color: rgba(254, 211, 48, 0.55);
+    }
+}
+
+/* Barra de progreso amarilla de avance al arrastrar */
+.slider-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0px;
+    border-radius: 999px; /* Redondo */
+    background: linear-gradient(90deg, 
+        rgba(38, 222, 129, 0.35) 0%, 
+        rgba(254, 211, 48, 0.75) 60%, 
+        rgba(254, 211, 48, 0.95) 100%);
+    box-shadow: 0 0 16px rgba(254, 211, 48, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    z-index: 2;
+    transition: width 0.04s linear;
+}
+
+/* Texto brillante animado con gradiente móvil (Shimmer) */
+.slider-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: var(--slider-text);
+    pointer-events: none;
+    padding-left: 36px;
+    background: linear-gradient(90deg, 
+        rgba(150, 150, 150, 0.4) 0%, 
+        rgba(255, 255, 255, 0.95) 50%, 
+        rgba(150, 150, 150, 0.4) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmerSlide 2.8s infinite linear;
+    transition: opacity 0.2s ease;
+}
+
+body.theme-day .slider-label {
+    background: linear-gradient(90deg, 
+        rgba(120, 120, 120, 0.4) 0%, 
+        rgba(20, 20, 20, 0.95) 50%, 
+        rgba(120, 120, 120, 0.4) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.slider-label i {
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: -1px;
+    color: var(--gold-primary);
+}
+
+@keyframes shimmerSlide {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+/* Botón deslizador (Knob/Thumb) Redondo */
+.slider-thumb {
+    position: absolute;
+    left: 4px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%; /* Perfectamente redondo */
+    background: var(--slider-thumb-bg);
+    box-shadow: var(--slider-thumb-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    z-index: 5;
+    will-change: transform;
+    transition: transform 0.05s linear;
+}
+
+.slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(0.96);
+}
+
+.thumb-icon {
+    font-size: 1.35rem;
+    pointer-events: none;
+}
+
+/* ==========================================================
+   Firma, Corazones Flotantes y Easter Egg de Valerio
+   ========================================================== */
+.card-signature {
+    border-top: 1px solid var(--content-border);
+    padding-top: 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+    z-index: 2;
+    user-select: none;
+}
+
+.signature-author {
+    color: var(--text-title);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.signature-author:active {
+    transform: scale(0.92);
+    background: rgba(254, 211, 48, 0.15);
+}
+
+.signature-heart {
+    display: inline-block;
+    animation: heartPulse 1.8s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.3); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.18); }
+}
+
+/* Micro-partículas que nacen del texto cinético o del toque */
+.text-petal-burst {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1rem;
+    user-select: none;
+    will-change: transform, opacity;
+    animation: textPetalFly 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes textPetalFly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--vx)), calc(-50% + var(--vy) - 30px)) scale(1.1) rotate(var(--rot));
+    }
+}
+
+/* Corazón flotante continuo desde la firma */
+.signature-floating-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.1rem;
+    user-select: none;
+    animation: floatUpAndFade 2.2s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+}
+
+@keyframes floatUpAndFade {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.5);
+    }
+    15% {
+        opacity: 1;
+        transform: translate(-50%, -10px) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--offset-x, 0px)), -65px) scale(0.85);
     }
 }
